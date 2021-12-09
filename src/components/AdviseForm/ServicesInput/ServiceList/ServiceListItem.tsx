@@ -1,6 +1,6 @@
 import { PencilIcon, TrashIcon } from '@heroicons/react/solid';
 import React from 'react';
-import Service from '../../../common/api/schema/Service';
+import Service from '../../../../common/api/schema/Service';
 
 export default function ServiceListItem(props: {
   service: Service;

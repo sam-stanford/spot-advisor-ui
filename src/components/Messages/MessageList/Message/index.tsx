@@ -7,7 +7,7 @@ import MessageType from '../../../../common/types/Message';
 export default function Message(props: {
   message: MessageType;
   remove: () => void;
-}) {
+}): JSX.Element {
   const { message, remove } = props;
 
   return (

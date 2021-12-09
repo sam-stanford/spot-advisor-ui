@@ -5,12 +5,11 @@ import MessageComponent from './Message';
 export default function MessageList(props: {
   messages: Message[];
   removeMessage: (id: string) => void;
-}) {
+}): JSX.Element {
   const { messages, removeMessage } = props;
 
   return (
     <ul>
-      POKEMOn
       {messages.map((message) => {
         return (
           <MessageComponent

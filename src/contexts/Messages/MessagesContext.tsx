@@ -3,11 +3,11 @@ import Message, { CreateMessageInput } from '../../common/types/Message';
 
 const MessagesContext = React.createContext<{
   messages: Message[];
-  addMessage: (Notification: CreateMessageInput) => void;
+  newMessage: (Notification: CreateMessageInput) => void;
   removeMessage: (id: string) => void;
 }>({
   messages: [],
-  addMessage: () => undefined,
+  newMessage: () => undefined,
   removeMessage: () => undefined,
 });
 

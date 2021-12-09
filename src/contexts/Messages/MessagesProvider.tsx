@@ -6,12 +6,12 @@ import Messages from './MessagesContext';
 
 export default function MessagesProvider(props: {
   children?: React.ReactNode;
-}) {
+}): JSX.Element {
   const { children } = props;
 
   const [messages, setMessages] = useState<Message[]>([]);
 
-  const addMessage = (message: CreateMessageInput) => {
+  const newMessage = (message: CreateMessageInput) => {
     setMessages([...messages, { ...message, id: uuidv4() }]);
   };
 
@@ -20,7 +20,7 @@ export default function MessagesProvider(props: {
   };
 
   const value = useMemo(() => {
-    return { messages, addMessage, removeMessage };
+    return { messages, newMessage, removeMessage };
   }, [messages]);
 
   return <Messages.Provider value={value}>{children}</Messages.Provider>;

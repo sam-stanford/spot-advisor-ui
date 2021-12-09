@@ -1,5 +1,5 @@
 import React from 'react';
-import Service from '../../../common/api/schema/Service';
+import Service from '../../../../common/api/schema/Service';
 import AddServiceButton from './AddServiceButton';
 import ServiceListItem from './ServiceListItem';
 
@@ -12,7 +12,7 @@ export default function ServiceList(props: {
   const { services, addService, editService, removeService } = props;
 
   return (
-    <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
       {services.map((service) => (
         <ServiceListItem
           key={service.name}
