@@ -64,9 +64,9 @@ export default function Input(props: InputProps): JSX.Element {
   ) : undefined;
 
   const invalidClasses =
-    'border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500';
+    'border-red-300 text-red-900 placeholder-red-300 focus-visible:outline-none focus-visible:ring-red-500 focus-visible:border-red-500';
   const validClasses =
-    'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500';
+    'border-gray-300 focus-visible:ring-indigo-500 focus-visible:border-indigo-500';
 
   return (
     <div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import Service from '../../../../common/api/schema/Service';
+import Service from '../../../../../common/api/schema/Service';
 import AddServiceButton from './AddServiceButton';
 import ServiceListItem from './ServiceListItem';
 

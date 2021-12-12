@@ -1,8 +1,8 @@
 export enum MessageType {
-  SUCCESS = 'success',
-  ERROR = 'error',
-  WARNING = 'warn',
-  INFO = 'info',
+  Success = 'success',
+  Error = 'error',
+  Warning = 'warn',
+  Info = 'info',
 }
 
 type Message = {

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import ServiceList from './ServiceList';
 import RemoveServiceModal from './modals/RemoveServiceModal';
-import Service from '../../../common/api/schema/Service';
-import ServiceInputModal from './modals/ServiceInputModal';
+import Service from '../../../../common/api/schema/Service';
+import AddServiceModal from './modals/AddServiceModal';
+import EditServiceModal from './modals/EditServiceModal';
 
 export default function ServicesInput(props: {
   services: Service[];
@@ -43,20 +44,19 @@ export default function ServicesInput(props: {
 
   return (
     <>
-      <h3 className="text-left my-5 text-xl">Services</h3>
       <ServiceList
         services={services}
         addService={() => setAddModalOpen(true)}
         editService={openEditModal}
         removeService={openRemoveModal}
       />
-      <ServiceInputModal
+      <AddServiceModal
         isOpen={addModalOpen}
         close={() => setAddModalOpen(false)}
         submit={addService}
         currentServiceNames={services.map((s) => s.name)}
       />
-      <ServiceInputModal
+      <EditServiceModal
         data={serviceToEdit}
         isOpen={editModalOpen}
         close={() => setEditModalOpen(false)}

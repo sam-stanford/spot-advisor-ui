@@ -1,7 +1,7 @@
 enum HtmlInputType {
-  TEXT = 'text',
-  NUMBER = 'number',
-  PASSWORD = 'password',
+  Text = 'text',
+  Number = 'number',
+  Password = 'password',
 }
 
 export default HtmlInputType;
