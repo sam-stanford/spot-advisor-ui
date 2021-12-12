@@ -18,11 +18,13 @@ export default function MultiSelect(props: {
   toggleActive: (value: string) => void;
 }) {
   const { name, options, toggleActive } = props;
-  let closeTimeoutId: ReturnType<typeof global.setTimeout> = setTimeout(
-    () => undefined,
-  ); // https://reactjs.org/docs/accessibility.html#mouse-and-pointer-events
 
   const [open, setOpen] = useState(false);
+
+  // Using React's suggested dropdown behaviour: https://reactjs.org/docs/accessibility.html#mouse-and-pointer-events
+  let closeTimeoutId: ReturnType<typeof global.setTimeout> = setTimeout(
+    () => undefined,
+  );
 
   const closeDropdown = () => {
     closeTimeoutId = setTimeout(() => {
@@ -31,9 +33,6 @@ export default function MultiSelect(props: {
   };
 
   const selectedOptions = options.filter((o) => o.selected).map((o) => o.value);
-
-  /* TODO: Fix drop down clearning on click */
-  /* TODO: Maybe error to do with nested buttons */
 
   return (
     <div>
