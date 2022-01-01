@@ -9,16 +9,18 @@ export default function MessageList(props: {
   const { messages, removeMessage } = props;
 
   return (
-    <ul>
-      {messages.map((message) => {
-        return (
-          <MessageComponent
-            key={message.id}
-            message={message}
-            remove={() => removeMessage(message.id)}
-          />
-        );
-      })}
-    </ul>
+    <div className="fixed bottom-0 w-full m-0 flex items-center justify-center">
+      <ul className="w-full max-w-xl">
+        {messages.map((message) => {
+          return (
+            <MessageComponent
+              key={message.id}
+              message={message}
+              remove={() => removeMessage(message.id)}
+            />
+          );
+        })}
+      </ul>
+    </div>
   );
 }

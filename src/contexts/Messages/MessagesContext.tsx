@@ -1,9 +1,9 @@
 import React from 'react';
-import Message, { CreateMessageInput } from '../../common/types/Message';
+import Message, { MessageType } from '../../common/types/Message';
 
 const MessagesContext = React.createContext<{
   messages: Message[];
-  newMessage: (Notification: CreateMessageInput) => void;
+  newMessage: (message: string, type: MessageType, duration?: number) => void;
   removeMessage: (id: string) => void;
 }>({
   messages: [],

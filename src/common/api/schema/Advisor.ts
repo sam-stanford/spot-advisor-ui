@@ -5,7 +5,7 @@ export type AdvisorWeights = {
 };
 
 type Advisor = {
-  name: string;
+  type: string;
   weights: AdvisorWeights;
 };
 export default Advisor;

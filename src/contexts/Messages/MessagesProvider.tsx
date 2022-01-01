@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import Message, { CreateMessageInput } from '../../common/types/Message';
+import Message, { MessageType } from '../../common/types/Message';
 
 import Messages from './MessagesContext';
 
@@ -11,8 +11,12 @@ export default function MessagesProvider(props: {
 
   const [messages, setMessages] = useState<Message[]>([]);
 
-  const newMessage = (message: CreateMessageInput) => {
-    setMessages([...messages, { ...message, id: uuidv4() }]);
+  const newMessage = (message: string, type: MessageType, duration = 3000) => {
+    const id = uuidv4();
+    setMessages([...messages, { id, message, type }]);
+    setTimeout(() => {
+      setMessages(messages.filter((m) => m.id !== id));
+    }, duration);
   };
 
   const removeMessage = (id: string) => {

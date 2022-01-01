@@ -18,7 +18,10 @@ export default function ServiceInputModal(props: {
       close={close}
       Content={
         <ServiceInputForm
-          submit={submit}
+          submit={(s: Service) => {
+            submit(s);
+            close();
+          }}
           cancel={close}
           currentServiceNames={currentServiceNames}
           initialValues={data}

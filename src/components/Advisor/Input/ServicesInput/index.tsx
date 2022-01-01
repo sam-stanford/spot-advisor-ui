@@ -13,6 +13,8 @@ export default function ServicesInput(props: {
 }): JSX.Element {
   const { services, addService, editService, removeService } = props;
 
+  // TODO: Suggested service configs (e.g. stateless server, cache)
+
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [removeModalOpen, setRemoveModalOpen] = useState(false);

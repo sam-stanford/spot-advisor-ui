@@ -1,9 +1,9 @@
-import Region from './Region';
-
 type Options = {
   avoidRepeatedInstanceTypes: boolean;
-  shareInstancesBetweenApplications: boolean;
-  regions: Region[];
+  shareInstancesBetweenServices: boolean;
+  // shareInstancesBetweenSameService: boolean; // TODO
+  considerFreeInstances: boolean; // TODO
+  regions: string[];
 };
 
 export default Options;

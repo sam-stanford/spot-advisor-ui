@@ -1,10 +1,10 @@
 import { useContext } from 'react';
-import Message, { CreateMessageInput } from '../common/types/Message';
+import Message, { MessageType } from '../common/types/Message';
 import MessagesContext from '../contexts/Messages/MessagesContext';
 
 export default function useMessages(): {
   messages: Message[];
-  newMessage: (Notification: CreateMessageInput) => void;
+  newMessage: (message: string, type: MessageType, duration?: number) => void;
   removeMessage: (id: string) => void;
 } {
   return useContext(MessagesContext);

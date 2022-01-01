@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import HtmlInputType from '../../../common/types/HtmlInputType';
 import Tooltip from '../Tooltip';
 
+// TODO: Fix label s.t. you can click label to check box
+
 type Validation = {
   isValid: (value: string) => boolean;
   error: string;

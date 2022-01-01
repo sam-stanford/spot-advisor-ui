@@ -30,8 +30,8 @@ export default function AdvisorsListItem(props: {
 
   return (
     <div
-      key={advisorInfo.advisor.name}
-      className="border border-gray-200 rounded-lg shadow-sm"
+      key={advisorInfo.advisor.type}
+      className="border border-gray-200 rounded-lg shadow"
     >
       {/* TODO: Info icon top right for non-configurable */}
       <div className="p-6">

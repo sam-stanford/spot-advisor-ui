@@ -9,6 +9,34 @@ export default function ServiceListItem(props: {
 }): JSX.Element {
   const { service, editService, removeService } = props;
 
+  const details: { key: string; label: string; value: number; unit: string }[] =
+    [
+      {
+        key: 'minMem',
+        label: 'Minimum Memory',
+        value: service.minMemory,
+        unit: 'GiB',
+      },
+      {
+        key: 'maxVcpu',
+        label: 'Maximum Cores',
+        value: service.maxVcpu,
+        unit: '',
+      },
+      {
+        key: 'minInstances',
+        label: 'Minimum Instances',
+        value: service.minInstances,
+        unit: '',
+      },
+      {
+        key: 'maxInstances',
+        label: 'Maximum Instances',
+        value: service.maxInstances,
+        unit: '',
+      },
+    ];
+
   return (
     <li
       key={service.name}
@@ -24,7 +52,14 @@ export default function ServiceListItem(props: {
               TODO
             </span>
           </div>
-          <p className="mt-1 text-gray-500 text-sm truncate">TODO</p>
+          <ul className="text-left">
+            {details.map((d) => (
+              <li key={d.key} className="mt-1 text-gray-500 text-sm truncate">
+                {d.label}: {d.value}
+                {d.unit !== '' ? ` ${d.unit}` : null}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       <div>

@@ -15,7 +15,7 @@ const Advisors: AdvisorInfo[] = [
     icon: CurrencyPoundIcon,
     isConfigurable: false,
     advisor: {
-      name: 'weighted',
+      type: 'weighted',
       weights: {
         availability: 0.2,
         performance: 0.2,
@@ -32,7 +32,7 @@ const Advisors: AdvisorInfo[] = [
     icon: ChipIcon,
     isConfigurable: false,
     advisor: {
-      name: 'weighted',
+      type: 'weighted',
       weights: {
         availability: 0.2,
         performance: 0.6,
@@ -49,7 +49,7 @@ const Advisors: AdvisorInfo[] = [
     icon: CloudIcon,
     isConfigurable: false,
     advisor: {
-      name: 'weighted',
+      type: 'weighted',
       weights: {
         availability: 0.6,
         performance: 0.2,
@@ -66,7 +66,7 @@ const Advisors: AdvisorInfo[] = [
     icon: QuestionMarkIcon,
     isConfigurable: false,
     advisor: {
-      name: 'random',
+      type: 'random',
       weights: {
         availability: 0,
         performance: 0,
@@ -80,7 +80,7 @@ const Advisors: AdvisorInfo[] = [
     icon: CogIcon,
     isConfigurable: true,
     advisor: {
-      name: 'weighted',
+      type: 'weighted',
       weights: {
         availability: 0.33,
         performance: 0.33,
