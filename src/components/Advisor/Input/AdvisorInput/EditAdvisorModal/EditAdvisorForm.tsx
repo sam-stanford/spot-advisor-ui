@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import AdvisorInfo from '../../../../../common/advisors/AdvisorInfo';
+import AdvisorInfo from '../../../../../common/types/AdvisorInfo';
 import { AdvisorWeights } from '../../../../../common/api/schema/Advisor';
 import HtmlInputType from '../../../../../common/types/HtmlInputType';
 import Input from '../../../../common/forms/Input';
+import Validation, {
+  isPositiveValidation,
+  requiredValidation,
+} from '../../../../../common/types/Validation';
 
 export default function EditAdvisorForm(props: {
   submit: (advisorWeights: AdvisorWeights) => void;
@@ -14,57 +18,110 @@ export default function EditAdvisorForm(props: {
   const [values, setValues] = useState<AdvisorWeights>({
     ...advisor.advisor.weights,
   });
+  const [errorMessages, setErrorMessages] = useState<{
+    [key in keyof AdvisorWeights]: string;
+  }>({
+    availability: '',
+    performance: '',
+    price: '',
+  });
 
-  const submitForm = () => {
-    // TODO: Validation
-    submit(values);
+  const validations: { [key in keyof AdvisorWeights]: Validation[] } = {
+    availability: [requiredValidation, isPositiveValidation],
+    performance: [requiredValidation, isPositiveValidation],
+    price: [requiredValidation, isPositiveValidation],
   };
 
-  const isPositiveValidation = {
-    isValid: (val: string) => {
-      return Number(val) >= 0;
-    },
-    error: 'Must be a positive value',
+  const setFieldErrorMessage = (field: keyof AdvisorWeights, error: string) => {
+    const newErrorMessages = {
+      ...errorMessages,
+    };
+    newErrorMessages[field] = error;
+    setErrorMessages(newErrorMessages);
+  };
+
+  const validateField = (field: keyof AdvisorWeights): boolean => {
+    const fieldValue = `${values[field]}`;
+    let isValid = true;
+
+    validations[field]?.reverse(); // First declared validation message should show first
+    validations[field]?.forEach((v) => {
+      if (!v.isValid(fieldValue)) {
+        setFieldErrorMessage(field, v.error);
+        isValid = false;
+      }
+    });
+    validations[field]?.reverse(); // Restore original ordering
+    if (isValid) {
+      setFieldErrorMessage(field, '');
+    }
+
+    return isValid;
+  };
+
+  const validateAllFields = (): boolean => {
+    let isValid = true;
+    Object.keys(values).forEach((field) => {
+      const fieldIsValid = validateField(field as keyof AdvisorWeights);
+      isValid = isValid && fieldIsValid;
+    });
+    return isValid;
+  };
+
+  const submitForm = () => {
+    const isValid = validateAllFields();
+    if (isValid) {
+      submit(values);
+    }
   };
 
   return (
     <form>
-      <div className="space-y-8 divide-y divide-gray-200">
+      <div className="bg-white border-b border-gray-200">
+        <h3 className="text-lg leading-6 font-medium text-gray-900 pb-2">
+          Configure Advisor: {advisor.title}
+        </h3>
+      </div>
+      <div className="divide-y divide-gray-200">
         <Input
           name="availability-weight"
           label="Availability Weight"
-          validations={[isPositiveValidation]}
           type={HtmlInputType.Number}
-          value={values.availability.toString()}
-          initialValue={values.availability.toString()}
+          value={
+            values.availability !== undefined ? `${values.availability}` : ''
+          }
           setValue={(weight: string) =>
             setValues({ ...values, availability: Number(weight) })
           }
           placeholder="Availability Weight"
+          errorMessage={errorMessages.availability}
+          validate={() => validateField('availability')}
         />
         <Input
           name="performance-weight"
           label="Performance Weight"
-          validations={[isPositiveValidation]}
           type={HtmlInputType.Number}
-          value={values.performance.toString()}
-          initialValue={values.performance.toString()}
+          value={
+            values.performance !== undefined ? `${values.performance}` : ''
+          }
           setValue={(weight: string) =>
             setValues({ ...values, performance: Number(weight) })
           }
           placeholder="Performance Weight"
+          errorMessage={errorMessages.performance}
+          validate={() => validateField('performance')}
         />
         <Input
           name="price-weight"
           label="Price Weight"
-          validations={[isPositiveValidation]}
           type={HtmlInputType.Number}
-          value={values.price.toString()}
-          initialValue={values.price.toString()}
+          value={values.price !== undefined ? `${values.price}` : ''}
           setValue={(weight: string) =>
             setValues({ ...values, price: Number(weight) })
           }
           placeholder="Price Weight"
+          errorMessage={errorMessages.price}
+          validate={() => validateField('price')}
         />
       </div>
       <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">

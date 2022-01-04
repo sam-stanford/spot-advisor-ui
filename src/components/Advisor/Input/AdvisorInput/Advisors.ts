@@ -3,7 +3,7 @@ import CloudIcon from '../../../../common/icons/outline/CloudIcon';
 import CogIcon from '../../../../common/icons/outline/CogIcon';
 import CurrencyPoundIcon from '../../../../common/icons/outline/CurrencyPoundIcon';
 import QuestionMarkIcon from '../../../../common/icons/outline/QuestionMarkIcon';
-import AdvisorInfo from '../../../../common/advisors/AdvisorInfo';
+import AdvisorInfo from '../../../../common/types/AdvisorInfo';
 
 const Advisors: AdvisorInfo[] = [
   {

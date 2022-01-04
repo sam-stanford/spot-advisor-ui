@@ -3,7 +3,7 @@ import Advice from '../../../common/api/schema/Advice';
 import Service from '../../../common/api/schema/Service';
 import RegionResults from './RegionResults';
 
-export default function Results(props: {
+export default function AdvisorResults(props: {
   advice: Advice;
   services: Service[];
 }) {

@@ -9,8 +9,8 @@ export default function MessageList(props: {
   const { messages, removeMessage } = props;
 
   return (
-    <div className="fixed bottom-0 w-full m-0 flex items-center justify-center">
-      <ul className="w-full max-w-xl">
+    <div className="fixed top-10 right-10 m-0 z-50" aria-live="assertive">
+      <ul>
         {messages.map((message) => {
           return (
             <MessageComponent

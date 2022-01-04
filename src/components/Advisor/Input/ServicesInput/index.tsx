@@ -4,6 +4,8 @@ import RemoveServiceModal from './modals/RemoveServiceModal';
 import Service from '../../../../common/api/schema/Service';
 import AddServiceModal from './modals/AddServiceModal';
 import EditServiceModal from './modals/EditServiceModal';
+import useMessages from '../../../../hooks/useMessages';
+import { MessageType } from '../../../../common/types/Message';
 
 export default function ServicesInput(props: {
   services: Service[];
@@ -13,12 +15,11 @@ export default function ServicesInput(props: {
 }): JSX.Element {
   const { services, addService, editService, removeService } = props;
 
-  // TODO: Suggested service configs (e.g. stateless server, cache)
+  const { newMessage } = useMessages();
 
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [removeModalOpen, setRemoveModalOpen] = useState(false);
-
   const [serviceToRemoveName, setServiceToRemoveName] = useState('');
   const [serviceToEdit, setServiceToEdit] = useState<Partial<Service>>({});
 
@@ -65,8 +66,12 @@ export default function ServicesInput(props: {
         submit={(s: Service) => {
           if (serviceToEdit.name) {
             editService(serviceToEdit.name, s);
+          } else {
+            newMessage(
+              'Something went wrong while trying to edit a service',
+              MessageType.Error,
+            );
           }
-          // TODO
         }}
         currentServiceNames={services.map((s) => s.name)}
       />

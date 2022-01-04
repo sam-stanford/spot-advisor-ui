@@ -1,19 +1,21 @@
 import {
   AdjustmentsIcon,
   ChevronRightIcon,
+  InformationCircleIcon,
   CheckIcon,
 } from '@heroicons/react/outline';
 import React from 'react';
-import AdvisorInfo from '../../../../../common/advisors/AdvisorInfo';
+import AdvisorInfo from '../../../../../common/types/AdvisorInfo';
 import { AdvisorWeights } from '../../../../../common/api/schema/Advisor';
 
 export default function AdvisorsListItem(props: {
   advisorInfo: AdvisorInfo;
   isSelected: boolean;
   toggleSelected: () => void;
+  view: () => void;
   edit: () => void;
 }) {
-  const { advisorInfo, isSelected, toggleSelected, edit } = props;
+  const { advisorInfo, isSelected, toggleSelected, view, edit } = props;
 
   const weightsToFeature = (weights: AdvisorWeights): string => {
     return `Availability weight: ${weights.availability}, performance weight: ${weights.performance}, price weight: ${weights.price}`;
@@ -31,27 +33,31 @@ export default function AdvisorsListItem(props: {
   return (
     <div
       key={advisorInfo.advisor.type}
-      className="border border-gray-200 rounded-lg shadow"
+      className="border border-gray-200 rounded-lg shadow p-6"
     >
-      {/* TODO: Info icon top right for non-configurable */}
-      <div className="p-6">
-        <div className="h-16 w-16 mx-auto flex items-center justify-center rounded-full bg-indigo-50">
-          <advisorInfo.icon className="h-12 w-12 text-indigo-500" />
+      <div className="flex flex-col justify-between align-middle h-full">
+        <div>
+          <div className="h-16 w-16 mx-auto flex items-center justify-center rounded-full bg-indigo-50">
+            <advisorInfo.icon className="h-12 w-12 text-indigo-500" />
+          </div>
+          <h2 className="mt-6 text-lg leading-6 font-medium text-gray-900 text-center">
+            {advisorInfo.title}
+          </h2>
+          <ul className="mt-6 space-y-4">
+            {features.map((feature) => (
+              <li
+                key={feature}
+                className="flex items-center space-x-3 text-left"
+              >
+                <ChevronRightIcon
+                  className="flex-shrink-0 h-5 w-5 text-indigo-500"
+                  aria-hidden="true"
+                />
+                <span className="text-sm text-gray-500">{feature}</span>
+              </li>
+            ))}
+          </ul>
         </div>
-        <h2 className="mt-6 text-lg leading-6 font-medium text-gray-900">
-          {advisorInfo.title}
-        </h2>
-        <ul className="mt-6 space-y-4">
-          {features.map((feature) => (
-            <li key={feature} className="flex items-center space-x-3 text-left">
-              <ChevronRightIcon
-                className="flex-shrink-0 h-5 w-5 text-indigo-500"
-                aria-hidden="true"
-              />
-              <span className="text-sm text-gray-500">{feature}</span>
-            </li>
-          ))}
-        </ul>
         <div className="flex flex-col mt-8">
           {advisorInfo.isConfigurable ? (
             <button
@@ -62,7 +68,16 @@ export default function AdvisorsListItem(props: {
               <AdjustmentsIcon className="h-4 w-4 mr-1" />
               Configure
             </button>
-          ) : null}
+          ) : (
+            <button
+              type="button"
+              onClick={view}
+              className="mx-auto mb-2 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-full shadow-sm border-gray-300 bg-white text-gray-700 hover:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
+            >
+              <InformationCircleIcon className="h-4 w-4 mr-1" />
+              Info
+            </button>
+          )}
           <button
             type="button"
             onClick={toggleSelected}

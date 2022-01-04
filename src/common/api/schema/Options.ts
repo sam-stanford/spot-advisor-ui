@@ -1,8 +1,7 @@
 type Options = {
   avoidRepeatedInstanceTypes: boolean;
   shareInstancesBetweenServices: boolean;
-  // shareInstancesBetweenSameService: boolean; // TODO
-  considerFreeInstances: boolean; // TODO
+  considerFreeInstances: boolean;
   regions: string[];
 };
 

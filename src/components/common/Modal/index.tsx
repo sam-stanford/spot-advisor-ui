@@ -5,9 +5,9 @@ import ModalCloseButton from './ModalCloseButton';
 export default function Modal(props: {
   isOpen: boolean;
   close: () => void;
-  Content: React.ReactElement;
+  children: React.ReactElement;
 }): JSX.Element {
-  const { isOpen, close, Content } = props;
+  const { isOpen, close, children } = props;
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -47,7 +47,7 @@ export default function Modal(props: {
           >
             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
               <ModalCloseButton onClick={close} />
-              {Content}
+              {children}
             </div>
           </Transition.Child>
         </div>

@@ -48,9 +48,6 @@ export default function ServiceListItem(props: {
             <h3 className="text-gray-900 text-sm font-medium truncate">
               {service.name}
             </h3>
-            <span className="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full">
-              TODO
-            </span>
           </div>
           <ul className="text-left">
             {details.map((d) => (

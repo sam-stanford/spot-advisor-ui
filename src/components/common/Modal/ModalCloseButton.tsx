@@ -7,7 +7,7 @@ export default function ModalCloseButton(props: {
   const { onClick } = props;
 
   return (
-    <div className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+    <div className="hidden sm:block absolute top-0 right-0 pt-6 pr-6">
       <button
         type="button"
         className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"

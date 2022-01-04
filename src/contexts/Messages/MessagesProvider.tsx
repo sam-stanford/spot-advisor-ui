@@ -1,31 +1,37 @@
-import React, { useMemo, useState } from 'react';
+import React, { ReactNode, useMemo, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Message, { MessageType } from '../../common/types/Message';
 
-import Messages from './MessagesContext';
+import MessagesContext from './MessagesContext';
 
 export default function MessagesProvider(props: {
-  children?: React.ReactNode;
+  children?: ReactNode;
 }): JSX.Element {
   const { children } = props;
 
   const [messages, setMessages] = useState<Message[]>([]);
+  const messagesRef = useRef(messages);
+  messagesRef.current = messages;
 
-  const newMessage = (message: string, type: MessageType, duration = 3000) => {
+  const removeMessage = (id: string) => {
+    setMessages(messagesRef.current.filter((a) => a.id !== id));
+  };
+
+  const newMessage = (message: string, type: MessageType, duration = 8000) => {
     const id = uuidv4();
-    setMessages([...messages, { id, message, type }]);
+    setMessages([...messagesRef.current, { id, message, type }]);
     setTimeout(() => {
-      setMessages(messages.filter((m) => m.id !== id));
+      removeMessage(id);
     }, duration);
   };
 
-  const removeMessage = (id: string) => {
-    setMessages(messages.filter((a) => a.id !== id));
-  };
-
   const value = useMemo(() => {
-    return { messages, newMessage, removeMessage };
+    return { newMessage, removeMessage, messages };
   }, [messages]);
 
-  return <Messages.Provider value={value}>{children}</Messages.Provider>;
+  return (
+    <MessagesContext.Provider value={value}>
+      {children}
+    </MessagesContext.Provider>
+  );
 }

@@ -1,93 +1,74 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Service from '../../common/api/schema/Service';
 import { MessageType } from '../../common/types/Message';
 import useMessages from '../../hooks/useMessages';
-import AdvisorInput from './input/AdvisorInput';
-import OptionsInput from './input/OptionsInput';
-import ServicesInput from './input/ServicesInput';
 import Options from '../../common/api/schema/Options';
 import DefaultOptions from '../../common/options/DefaultOptions';
-import AdvisorInfo from '../../common/advisors/AdvisorInfo';
-import postAdvise from '../../common/api/requests/postAdvise';
-import ApiConfig from '../../common/api/config';
+import AdvisorInfo from '../../common/types/AdvisorInfo';
 import Advice from '../../common/api/schema/Advice';
-import Results from './Results';
 
-const testServices: Service[] = [
-  {
-    name: 'Test 1',
-    minMemory: 0.4,
-    maxInstances: 2,
-    minInstances: 1,
-    maxVcpu: 8,
-  },
-  {
-    name: 'Test 2',
-    minMemory: 0.6,
-    maxInstances: 2,
-    minInstances: 1,
-    maxVcpu: 8,
-  },
-];
+import Results from './Results';
+import Input from './Input';
+import scrollToElement from '../../common/utils/scrollToElement';
+import useApi from '../../hooks/useApi';
+import SubmitButton from './SubmitButton';
+import useConsole from '../../hooks/useConsole';
 
 export default function Advisor(): JSX.Element {
   const [services, setServices] = useState<Service[]>([]);
   const [options, setOptions] = useState<Options>(DefaultOptions);
   const [advisor, setAdvisor] = useState<AdvisorInfo | undefined>();
   const [advice, setAdvice] = useState<Advice | null>(null);
-
-  // TODO: Remove & fetch instead
-  useEffect(() => {
-    setServices(testServices);
-  }, []);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { newMessage } = useMessages();
+  const { postAdvise } = useApi();
+  const { Console } = useConsole();
+  const navigate = useNavigate();
 
   const validateAndSubmit = () => {
     if (services.length === 0) {
       newMessage('Please add one or more services', MessageType.Error);
-      // TODO: Scroll to services
+      navigate('#Services');
+      scrollToElement('Services');
       return;
     }
     if (advisor === undefined) {
       newMessage('Please select an advisor', MessageType.Error);
+      navigate('#Advisors');
+      scrollToElement('Advisors');
       return;
-      // TODO: Scroll to advisors
     }
     if (options.regions.length === 0) {
-      // TODO: Abstract to "validateOptions"
       newMessage('Please select one or more regions', MessageType.Error);
-      // TODO: Scroll to options
+      navigate('#Options');
+      scrollToElement('Options');
       return;
     }
 
-    const config = new ApiConfig({
-      baseUrl: 'http://127.0.0.1:12021',
-      advisePath: '/advise',
-      regionsPath: '/regions',
-    });
-
-    // TODO
-    postAdvise(
-      // TODO: Rename
-      {
-        services,
-        advisor: advisor.advisor,
-        options,
-      },
-      config,
-    )
+    setIsLoading(true);
+    postAdvise({
+      services,
+      advisor: advisor.advisor,
+      options,
+    })
       .then((resp) => {
-        setAdvice(resp); // TODO: Rename resp
+        setAdvice(resp);
       })
       .catch((error) => {
-        console.error(error); // TODo: Handle better
+        Console.log('Error making advise request', error);
+        newMessage(
+          `An error occured when making the request, please try again later`,
+          MessageType.Error,
+          5000,
+        );
       });
+    setIsLoading(false);
   };
 
-  const serviceExistsWithName = (name: string): boolean => {
-    return services.some((s) => s.name === name);
-  };
+  const serviceExistsWithName = (name: string): boolean =>
+    services.some((s) => s.name === name);
 
   const addService = (s: Service) => {
     if (serviceExistsWithName(s.name)) {
@@ -98,13 +79,18 @@ export default function Advisor(): JSX.Element {
       return;
     }
     setServices([...services, s]);
+    newMessage(`Service "${s.name}" added`, MessageType.Success);
   };
 
   const editService = (name: string, edited: Service) => {
     const serviceIndex = services.findIndex((s) => s.name === name);
     if (serviceIndex === -1) {
+      newMessage(`Service with "${name}" does not exist`, MessageType.Error);
+      return;
+    }
+    if (edited.name !== name && serviceExistsWithName(edited.name)) {
       newMessage(
-        `service with name "${edited.name}" already exists`,
+        `Service with name "${edited.name}" already exists`,
         MessageType.Error,
       );
       return;
@@ -121,40 +107,22 @@ export default function Advisor(): JSX.Element {
   };
 
   return (
-    // TODO: Wrap in Input component
-    <>
-      <div className="space-y-8 divide-y divide-gray-200">
-        <div>
-          <h3 className="text-left my-5 text-xl">Services</h3>
-          <ServicesInput
-            services={services}
-            addService={addService}
-            editService={editService}
-            removeService={removeService}
-          />
-        </div>
-        <div>
-          <h3 className="text-left my-5 text-xl">Advisor</h3>
-          <AdvisorInput
-            selected={advisor}
-            select={setAdvisor}
-            clearSelection={() => setAdvisor(undefined)}
-          />
-        </div>
-        <div>
-          <h3 className="text-left my-5 text-xl">Options</h3>
-          <OptionsInput options={options} setOptions={setOptions} />
-        </div>
-        <button
-          type="button"
-          onClick={validateAndSubmit}
-          className="mt-8 px-8 py-4 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm font-medium text-base sm:ml-3 sm:w-auto sm:text-md bg-indigo-600 text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
-        >
-          Get Instances
-        </button>
-      </div>
-      {/* TODO: Loading spinner */}
-      {advice !== null ? <Results advice={advice} services={services} /> : ''}
-    </>
+    <div className="pb-16">
+      <Input
+        services={services}
+        addService={addService}
+        editService={editService}
+        removeService={removeService}
+        selectedAdvisor={advisor}
+        selectAdvisor={setAdvisor}
+        clearAdvisorSelection={() => {
+          setAdvisor(undefined);
+        }}
+        options={options}
+        setOptions={setOptions}
+      />
+      <SubmitButton submit={validateAndSubmit} isLoading={isLoading} />
+      {advice !== null ? <Results advice={advice} services={services} /> : null}
+    </div>
   );
 }

@@ -1,14 +1,8 @@
-import { Listbox, Transition } from '@headlessui/react';
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  SelectorIcon,
-  XIcon,
-} from '@heroicons/react/solid';
+import { Transition } from '@headlessui/react';
+import { CheckIcon, ChevronDownIcon } from '@heroicons/react/solid';
 import React, { Fragment, useState } from 'react';
 import classNames from '../../../common/utils/classNames';
-
-// TODO: Use this in other conditional classNames
+import LoadingSpinner from '../LoadingSpinner';
 
 export type MultiSelectOption = {
   value: string;
@@ -18,9 +12,10 @@ export type MultiSelectOption = {
 export default function MultiSelect(props: {
   name: string;
   options: MultiSelectOption[];
+  loading: boolean;
   toggleActive: (value: string) => void;
 }) {
-  const { name, options, toggleActive } = props;
+  const { name, options, toggleActive, loading } = props;
 
   const [open, setOpen] = useState(false);
 
@@ -39,9 +34,9 @@ export default function MultiSelect(props: {
 
   return (
     <div>
-      <label className="block text-left text-sm font-medium text-gray-700">
+      <span className="block text-left text-sm font-medium text-gray-700">
         {name}
-      </label>
+      </span>
       <div className="mt-1 relative">
         <button
           type="button"
@@ -90,33 +85,37 @@ export default function MultiSelect(props: {
           leaveTo="opacity-0"
         >
           <ul className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-            {options.map(({ value, selected }) => (
-              <li
-                role="option"
-                tabIndex={0}
-                aria-selected={selected}
-                key={value}
-                className="cursor-pointer select-none relative py-2 pl-3 pr-9 text-left block text-gray-900 hover:bg-indigo-50"
-                onClick={() => toggleActive(value)}
-                onKeyPress={() => toggleActive(value)}
-                onFocus={() => {
-                  clearTimeout(closeTimeoutId);
-                }}
-                onBlur={closeDropdown}
-              >
-                {selected ? (
-                  <CheckIcon className="h-4 w-4 mr-1 inline-block text-indigo-600" />
-                ) : null}
-                <span
-                  className={classNames(
-                    selected ? 'font-semibold' : 'font-normal ml-5',
-                    'truncate',
-                  )}
+            {loading ? (
+              <LoadingSpinner text="Loading..." />
+            ) : (
+              options.map(({ value, selected }) => (
+                <li
+                  role="option"
+                  tabIndex={0}
+                  aria-selected={selected}
+                  key={value}
+                  className="cursor-pointer select-none relative py-2 pl-3 pr-9 text-left block text-gray-900 hover:bg-indigo-50"
+                  onClick={() => toggleActive(value)}
+                  onKeyPress={() => toggleActive(value)}
+                  onFocus={() => {
+                    clearTimeout(closeTimeoutId);
+                  }}
+                  onBlur={closeDropdown}
                 >
-                  {value}
-                </span>
-              </li>
-            ))}
+                  {selected ? (
+                    <CheckIcon className="h-4 w-4 mr-1 inline-block text-indigo-600" />
+                  ) : null}
+                  <span
+                    className={classNames(
+                      selected ? 'font-semibold' : 'font-normal ml-5',
+                      'truncate',
+                    )}
+                  >
+                    {value}
+                  </span>
+                </li>
+              ))
+            )}
           </ul>
         </Transition>
       </div>

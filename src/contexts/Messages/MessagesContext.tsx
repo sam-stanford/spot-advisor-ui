@@ -1,7 +1,7 @@
-import React from 'react';
+import { createContext } from 'react';
 import Message, { MessageType } from '../../common/types/Message';
 
-const MessagesContext = React.createContext<{
+const MessagesContext = createContext<{
   messages: Message[];
   newMessage: (message: string, type: MessageType, duration?: number) => void;
   removeMessage: (id: string) => void;

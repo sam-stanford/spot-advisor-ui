@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import AdvisorInfo from '../../../../common/advisors/AdvisorInfo';
+import AdvisorInfo from '../../../../common/types/AdvisorInfo';
 import AdvisorsList from './AdvisorsList';
-import AdvisorModal from './EditAdvisorModal';
 import Advisors from './Advisors';
 import { AdvisorWeights } from '../../../../common/api/schema/Advisor';
+import useMessages from '../../../../hooks/useMessages';
+import { MessageType } from '../../../../common/types/Message';
+import EditAdvisorModal from './EditAdvisorModal';
+import ViewAdvisorModal from './ViewAdvisorModal';
 
 export default function AdvisorInput(props: {
   selected: AdvisorInfo | undefined;
@@ -13,15 +16,16 @@ export default function AdvisorInput(props: {
   const { selected, select, clearSelection } = props;
 
   const [advisors, setAdvisors] = useState(Advisors);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
   const [modalAdvisorIndex, setModalAdvisorIndex] = useState(0);
+
+  const { newMessage } = useMessages();
 
   const getAdvisorIndexFromName = (name: string) => {
     const found = advisors.findIndex((a) => a.title === name);
     if (found === -1) {
-      throw new Error(
-        'no advisor selected',
-      ); /* TODO: Make this a user-facing error */
+      newMessage('No advisor is selected', MessageType.Error);
     }
     return found;
   };
@@ -57,16 +61,25 @@ export default function AdvisorInput(props: {
         }
         edit={(name: string) => {
           setModalAdvisorIndex(getAdvisorIndexFromName(name));
-          setModalOpen(true);
+          setEditModalOpen(true);
+        }}
+        view={(name: string) => {
+          setModalAdvisorIndex(getAdvisorIndexFromName(name));
+          setViewModalOpen(true);
         }}
       />
-      <AdvisorModal
+      <EditAdvisorModal
         advisor={advisors[modalAdvisorIndex]}
-        close={() => setModalOpen(false)}
-        isOpen={modalOpen}
+        close={() => setEditModalOpen(false)}
+        isOpen={editModalOpen}
         update={(newWeights: AdvisorWeights) => {
           updateAdvisorWeights(advisors[modalAdvisorIndex].title, newWeights);
         }}
+      />
+      <ViewAdvisorModal
+        advisor={advisors[modalAdvisorIndex]}
+        close={() => setViewModalOpen(false)}
+        isOpen={viewModalOpen}
       />
     </>
   );

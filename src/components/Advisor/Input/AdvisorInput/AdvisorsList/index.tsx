@@ -1,5 +1,5 @@
 import React from 'react';
-import AdvisorInfo from '../../../../../common/advisors/AdvisorInfo';
+import AdvisorInfo from '../../../../../common/types/AdvisorInfo';
 import AdvisorsListItem from './AdvisorsListItem';
 
 export default function AdvisorsList(props: {
@@ -8,8 +8,9 @@ export default function AdvisorsList(props: {
   clearSelection: () => void;
   selected: string;
   edit: (name: string) => void;
+  view: (name: string) => void;
 }) {
-  const { advisors, select, clearSelection, selected, edit } = props;
+  const { advisors, select, clearSelection, selected, edit, view } = props;
 
   return (
     <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
@@ -26,6 +27,7 @@ export default function AdvisorsList(props: {
             }
           }}
           edit={() => edit(advisor.title)}
+          view={() => view(advisor.title)}
         />
       ))}
     </ul>

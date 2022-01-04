@@ -1,5 +1,5 @@
 import React from 'react';
-import AdvisorInfo from '../../../../../common/advisors/AdvisorInfo';
+import AdvisorInfo from '../../../../../common/types/AdvisorInfo';
 import { AdvisorWeights } from '../../../../../common/api/schema/Advisor';
 import Modal from '../../../../common/Modal';
 import EditAdvisorForm from './EditAdvisorForm';
@@ -12,19 +12,15 @@ export default function EditAdvisorModal(props: {
 }) {
   const { isOpen, close, advisor, update } = props;
   return (
-    <Modal
-      isOpen={isOpen}
-      close={close}
-      Content={
-        <EditAdvisorForm
-          advisor={advisor}
-          cancel={close}
-          submit={(newWeights: AdvisorWeights) => {
-            update(newWeights);
-            close();
-          }}
-        />
-      }
-    />
+    <Modal isOpen={isOpen} close={close}>
+      <EditAdvisorForm
+        advisor={advisor}
+        cancel={close}
+        submit={(newWeights: AdvisorWeights) => {
+          update(newWeights);
+          close();
+        }}
+      />
+    </Modal>
   );
 }

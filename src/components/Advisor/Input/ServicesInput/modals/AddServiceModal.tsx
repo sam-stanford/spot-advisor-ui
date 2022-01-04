@@ -13,20 +13,16 @@ export default function ServiceInputModal(props: {
   const { data, isOpen: open, currentServiceNames, close, submit } = props;
 
   return (
-    <Modal
-      isOpen={open}
-      close={close}
-      Content={
-        <ServiceInputForm
-          submit={submit}
-          cancel={close}
-          currentServiceNames={currentServiceNames}
-          initialValues={data}
-          submitButtonText="Add"
-          cancelButtonText="Cancel"
-          title="Create New Service"
-        />
-      }
-    />
+    <Modal isOpen={open} close={close}>
+      <ServiceInputForm
+        submit={submit}
+        cancel={close}
+        currentServiceNames={currentServiceNames}
+        initialValues={data}
+        submitButtonText="Add"
+        cancelButtonText="Cancel"
+        title="New Service"
+      />
+    </Modal>
   );
 }
