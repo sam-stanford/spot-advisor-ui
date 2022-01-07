@@ -17,7 +17,7 @@ export default function MessagesProvider(props: {
     setMessages(messagesRef.current.filter((a) => a.id !== id));
   };
 
-  const newMessage = (message: string, type: MessageType, duration = 8000) => {
+  const newMessage = (message: string, type: MessageType, duration = 10000) => {
     const id = uuidv4();
     setMessages([...messagesRef.current, { id, message, type }]);
     setTimeout(() => {

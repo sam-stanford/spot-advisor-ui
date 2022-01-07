@@ -30,7 +30,7 @@ export default function RemoveServiceModal(props: {
             </Dialog.Title>
             <div className="mt-2">
               <p className="text-sm text-gray-500">
-                {`Are you sure you want to delete the ${serviceToRemove} service? This action cannot be undone.`}
+                {`Are you sure you want to delete ${serviceToRemove}? This action cannot be undone.`}
               </p>
             </div>
           </div>

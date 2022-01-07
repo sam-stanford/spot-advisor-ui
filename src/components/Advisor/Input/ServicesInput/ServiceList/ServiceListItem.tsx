@@ -45,14 +45,14 @@ export default function ServiceListItem(props: {
       <div className="w-full flex items-center justify-between p-6 space-x-6">
         <div className="flex-1 truncate">
           <div className="flex items-center space-x-3">
-            <h3 className="text-gray-900 text-sm font-medium truncate">
+            <h3 className="text-gray-900 text-md font-medium truncate">
               {service.name}
             </h3>
           </div>
           <ul className="text-left">
             {details.map((d) => (
               <li key={d.key} className="mt-1 text-gray-500 text-sm truncate">
-                {d.label}: {d.value}
+                &bull; {d.label}: {d.value}
                 {d.unit !== '' ? ` ${d.unit}` : null}
               </li>
             ))}

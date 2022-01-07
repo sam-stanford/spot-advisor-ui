@@ -5,14 +5,14 @@ import Service from '../../../../common/api/schema/Service';
 import InstancesToServicesListItem from './InstancesToServicesListItem';
 
 export default function InstancesToServicesList(props: {
-  assignments: Assignments; // TODO
+  assignments: Assignments;
   instances: { [id: string]: Instance };
   services: Service[];
 }) {
   const { assignments, instances, services } = props;
 
-  const getServicesFromNames = (names: string[]) => {
-    return services.filter((s) => names.some((name) => name === s.name));
+  const getServiceWithName = (name: string): Service => {
+    return services.filter((s) => s.name === name)[0];
   };
 
   return (
@@ -21,8 +21,8 @@ export default function InstancesToServicesList(props: {
         <InstancesToServicesListItem
           key={instanceId}
           instance={instances[instanceId]}
-          services={getServicesFromNames(
-            assignments.instancesToServices[instanceId],
+          services={assignments.instancesToServices[instanceId].map((name) =>
+            getServiceWithName(name),
           )}
         />
       ))}

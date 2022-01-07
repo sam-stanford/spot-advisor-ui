@@ -1,11 +1,29 @@
 import ChipIcon from '../../../../common/icons/outline/ChipIcon';
 import CloudIcon from '../../../../common/icons/outline/CloudIcon';
 import CogIcon from '../../../../common/icons/outline/CogIcon';
+import ScaleIcon from '../../../../common/icons/outline/ScaleIcon';
+
 import CurrencyPoundIcon from '../../../../common/icons/outline/CurrencyPoundIcon';
-import QuestionMarkIcon from '../../../../common/icons/outline/QuestionMarkIcon';
 import AdvisorInfo from '../../../../common/types/AdvisorInfo';
 
 const Advisors: AdvisorInfo[] = [
+  {
+    title: 'Balanced',
+    features: [
+      'Focuses on the balancing the price, availability, and performance of instances.',
+      'Works well for most system configurations.',
+    ],
+    icon: ScaleIcon,
+    isConfigurable: false,
+    advisor: {
+      type: 'weighted',
+      weights: {
+        availability: 0.33,
+        performance: 0.33,
+        price: 0.33,
+      },
+    },
+  },
   {
     title: 'Price-Focused',
     features: [
@@ -54,23 +72,6 @@ const Advisors: AdvisorInfo[] = [
         availability: 0.6,
         performance: 0.2,
         price: 0.2,
-      },
-    },
-  },
-  {
-    title: 'Random',
-    features: [
-      'Selects a random instance which has at least the minimum required memory.',
-      'Useful for benchmarks, but not recommended for real-world use.',
-    ],
-    icon: QuestionMarkIcon,
-    isConfigurable: false,
-    advisor: {
-      type: 'random',
-      weights: {
-        availability: 0,
-        performance: 0,
-        price: 0,
       },
     },
   },

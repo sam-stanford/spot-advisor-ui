@@ -83,7 +83,7 @@ export default function OptionsInput(props: {
         <Checkbox
           id="diversify-instances"
           name="Diversify instance types (recommended)"
-          description="Avoid selecting the same instance type to avoid correlated failures."
+          description="Avoid selecting the same instance type to reduce correlated failures."
           checked={options.avoidRepeatedInstanceTypes}
           onChange={(checked) => {
             setOptions({
@@ -95,7 +95,7 @@ export default function OptionsInput(props: {
         <Checkbox
           id="free-instances"
           name="Consider free instances (not recommended)"
-          description="Allow for free instances to be selected. Not recommended due to time-limited nature of free offers."
+          description="Allow free instances to be selected. Not recommended due to the time-limited nature of free offers."
           checked={options.considerFreeInstances}
           onChange={(checked) => {
             setOptions({
